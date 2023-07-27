@@ -36,9 +36,33 @@ int Grid::countNeigbours(int x, int y){
         for (int i=y-1; i < y+2; i++){
                 for (int j=x-1; j < x+2; j++){
                         if (i >= 0 && j >= 0 && i < 10 && j < 10 && cells[i][j] == 'x'){
-                                counter++;
+                                if (j != x || i != y)
+                                        counter++;
                         }
                 }
         }
         return counter;
+}
+
+//    Any live cell with fewer than two live neighbors dies as if caused by underpopulation.
+//    Any live cell with two or three live neighbors lives on to the next generation.
+//    Any live cell with more than three live neighbors dies, as if by overpopulation.
+//    Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+
+void Grid::cycle(){
+        for (int i=0; i<10; i++){
+                for (int j=0; j<10; j++){
+                        int nCount = countNeigbours(j, i);
+                        if (cells[i][j] == 'x'){
+                                //cout << "Count: " << nCount << " Coord: " << i << " " << j << endl;
+                                if (nCount < 2 || nCount > 3) {
+                                        cells[i][j] = 'o';
+                                }
+                        }
+                        else {
+                                if (nCount == 3)
+                                        cells[i][j] = 'x';
+                        }
+                }
+        }
 }

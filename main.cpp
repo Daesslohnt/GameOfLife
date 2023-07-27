@@ -17,7 +17,16 @@ int main(){
                 {8,4}
         };
         Grid grid(newCells);
+        
+        int iterCount;
+        cout << "Enter count of iterations: ";
+        cin >> iterCount;
+
+        cout << "Initial State:\n";
         grid.print();
 
-        std::cout << grid.countNeigbours(3, 2) << std::endl;
+        for (int i=0; i<iterCount; i++){
+                grid.cycle();
+                grid.print();
+        }
 }
